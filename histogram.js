@@ -1,15 +1,7 @@
 const D3Node = require('d3-node');
 const d3 = require('d3');
-
-// const styles = `
-// .bar rect {
-//   fill: steelblue;
-// }
-
-// .bar text {
-//   fill: #fff;
-//   font: 10px sans-serif;
-// }`;
+const fs = require('fs');
+const sharp = require('sharp');
 
 const options = {
   d3Module: d3,
@@ -19,24 +11,15 @@ const options = {
 
 const d3n = new D3Node(options);
 
-// from https://bl.ocks.org/mbostock/3048450
-// const data = d3.range(1000).map(d3.randomBates(10));
-
-// const formatCount = d3.format(',.0f');
-
 const margin = {
  top: 10, right: 5, bottom: 30, left: 5 
 };
 const width = 1000 - margin.left - margin.right;
 const height = 450 - margin.top - margin.bottom;
 
-// const x = d3.scaleLinear()
-//   .rangeRound([0, width]);
-
-
+// Create the scales for x-axis and y-axis. 
 const xScale = d3.scaleBand().range([0, width]).padding(0.4);
 const yScale = d3.scaleLinear().range([height, 0]);
-// const g = svg.append('g').attr('transform', `translate(${ 100 },${ 100 })`);
 
 const tempData = [{ year: 2020, value: 100 }, { year: 2019, value: 200 }, { year: 2018, value: 30 }, { year: 2017, value: 50 }, { year: 2016, value: 80 }];
 
@@ -48,10 +31,10 @@ yScale.domain([0, yMax]);
 const svgWidth = width + margin.left + margin.right;
 const svgHeight = height + margin.top + margin.bottom;
 
+// Create an svg element with the width and height defined.
 const svg = d3n.createSVG(svgWidth, svgHeight);
-  
-// svg.style('background-color', 'green');
 
+// Set the background of the entire svg to a desired color. This will make the background look uniform on everyone's computer.
 svg.append('rect')
     .attr('width', '100%')
     .attr('height', '100%')
@@ -65,9 +48,6 @@ svg.append('text')
   .text('XYZ Foods Stock Price');
 
 svg.append('g').attr('transform', `translate(${ 100 },${ 100 })`);
-
-// svg.append('g')
-//   .attr('transform', `translate(${ margin.left },${ margin.top })`);
 
   svg.append('g')
   .attr('transform', `translate(50,${ height })`)
@@ -107,71 +87,9 @@ svg.append('g')
          .attr('height', (d) => { return height - yScale(d.value); })
          .style('fill', 'orange');
 
+fs.writeFileSync('out.svg', d3n.svgString());
 
-//   const x = d3.scaleLinear().range([0, width]);
-
-// const bins = d3.histogram()
-//   .domain(x.domain())
-//   .thresholds(x.ticks(20))(data);
-
-// const y = d3.scaleLinear()
-//   .domain([0, d3.max(bins, (d) => { return d.length; })])
-//   .range([height, 0]);
-
-// const y = d3.scaleLinear()
-//   .domain([0, d3.max(data, (d) => { return d.length; })])
-//   .range([height, 0]);
-
-// const svgWidth = width + margin.left + margin.right;
-// const svgHeight = height + margin.top + margin.bottom;
-
-// const svg = d3n.createSVG(svgWidth, svgHeight)
-//   .append('g')
-//   .attr('transform', `translate(${ margin.left },${ margin.top })`);
-
-// const bar = svg.selectAll('.bar')
-//   .data(bins)
-//   .enter().append('g')
-//   .attr('class', 'bar')
-//   .attr('transform', (d) => { return `translate(${ x(d.x0) },${ y(d.length) })`; });
-
-// bar.append('rect')
-//   .attr('x', 1)
-//   .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
-//   .attr('height', (d) => { return height - y(d.length); })
-//   .style('fill', 'orange')
-//   .style('margin-right', '10px');
-
-// bar.append('text')
-//   .attr('dy', '.75em')
-//   .attr('y', 6)
-//   .attr('x', (x(bins[0].x1) - x(bins[0].x0)) / 2)
-//   .attr('text-anchor', 'middle')
-//   .text((d) => { return formatCount(d.length); });
-
-// svg.append('g')
-//   .attr('class', 'axis axis--x')
-//   .attr('transform', `translate(0,${ height })`)
-//   .call(d3.axisBottom(x));
-
- const fs = require('fs');
- fs.writeFileSync('out.svg', d3n.svgString());
-
-const sharp = require('sharp');
-
-// const roundedCorners = Buffer.from(
-//     d3n.svgString()
-//   );
-
-// sharp(roundedCorners)
-//   .resize(200, 200)
-//   .toFile('output1.png', (err, info) => { 
-//       console.log(err);
-//       console.log(info);
-//    });
-
-
-   sharp('out.svg')
+sharp('out.svg')
     .png()
     .toFile('sharp.png')
     .then((info) => {
