@@ -1,0 +1,97 @@
+{
+	"name": "hdw-deploy",
+	"version": "0.1.0",
+	"private": true,
+	"engines": {
+		"node": "10.x.x"
+	},
+	"jest-junit": {
+		"output": "./unit-test/jest-junit.xml"
+	},
+	"dependencies": {
+		"@octokit/rest": "^16.1.0",
+		"@slack/client": "^4.8.0",
+		"ajv": "^6.5.3",
+		"archiver": "^3.0.0",
+		"axios": "^0.18.0",
+		"client-oauth2": "^4.2.1",
+		"concurrently": "^3.6.0",
+		"cookie-parser": "^1.4.3",
+		"dotenv": "^8.0.0",
+		"express": "^4.16.3",
+		"jest-junit": "^6.4.0",
+		"log4js": "^4.2.0",
+		"mariadb": "^2.3.1",
+		"moment": "^2.22.2",
+		"node-fetch": "^2.2.0",
+		"nodemailer": "^6.1.1",
+		"nodemailer-smtp-transport": "^2.7.4",
+		"path": "^0.12.7",
+		"pondjs": "^0.8.9",
+		"prop-types": "^15.6.2",
+		"react": "^16.8.6",
+		"react-addons-shallow-compare": "^15.6.2",
+		"react-avatar": "^3.1.1",
+		"react-bootstrap": "^0.32.4",
+		"react-bootstrap-validation": "^0.1.11",
+		"react-datetime": "^2.15.0",
+		"react-dom": "^16.8.6",
+		"react-excel-workbook": "0.0.4",
+		"react-json-view": "^1.19.1",
+		"react-private-route": "^1.1.0",
+		"react-responsive-modal": "^3.4.0",
+		"react-router": "^4.2.0",
+		"react-router-dom": "^4.3.1",
+		"react-scripts": "1.1.4",
+		"react-select": "^2.4.3",
+		"react-simple-dropdown": "^3.2.0",
+		"react-table": "^6.8.6",
+		"request": "^2.88.0",
+		"semantic-ui-react": "^0.87.1",
+		"slack-node": "^0.1.8",
+		"superagent": "^5.0.5",
+		"tempa-xlsx": "0.0.1",
+		"uuid": "^3.3.2",
+		"validator": "^10.7.1",
+		"xlsx": "^0.14.3",
+		"yamljs": "^0.3.0",
+		"material-table": "^1.57.2",
+		"@material-ui/core": "^4.6.1",
+		"@date-io/date-fns": "^2.5.0",
+		"cfenv": "^1.2.2",
+		"cron": "^1.8.2",
+		"jsdom": "^16.2.2",
+		"d3": "^5.16.0",
+		"fs": "^0.0.1-security",
+		"d3-node": "^2.2.1",
+		"sharp": "^0.25.2",
+		"node-highcharts": "0.0.2"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"lint": "./node_modules/.bin/eslint --ext js,jsx --max-warnings 0 .",
+		"build": "react-scripts build",
+		"test": "react-scripts test --ci --coverage --reporters=default --reporters=jest-junit; node tools/zipCodeCoverageReport.js",
+		"eject": "react-scripts eject",
+		"start:local": "concurrently --kill-others-on-fail \"node server\" \"npm run start\"",
+		"dev": "concurrently --kill-others-on-fail \"nodemon server\" \"npm run start\"",
+		"server": "NODE_ENV=local node server"
+	},
+	"proxy": {
+		"/api": {
+			"target": "http://localhost:5000",
+			"changeOrigin": true
+		},
+		"/_gcp_iap": {
+			"target": "http://localhost:5000",
+			"changeOrigin": true
+		}
+	},
+	"devDependencies": {
+		"enzyme": "^3.10.0",
+		"enzyme-adapter-react-16": "^1.14.0",
+		"eslint": "^5.16.0",
+		"eslint-config-osc-base": "^1.2.0",
+		"eslint-plugin-import": "^2.18.0"
+	}
+}
