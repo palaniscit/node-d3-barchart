@@ -72,7 +72,7 @@ svg.append('text')
     .attr('x', 70)
     .attr('y', 50)
     .attr('font-size', '18px')
-    .text('Features Deployed by Product Team');
+    .text('Features');
 
 svg.append('g').attr('transform', `translate(${ margin.left },${ margin.top })`);
 
