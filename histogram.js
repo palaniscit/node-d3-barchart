@@ -9,6 +9,7 @@ const options = {
   container: '<div id="container"><div id="chart"></div></div>'
 };
 
+// Create a d3-node object with the selector and the required d3 module. 
 const d3n = new D3Node(options);
 
 const margin = {
@@ -16,23 +17,23 @@ const margin = {
 };
 const width = 1000 - margin.left - margin.right;
 const height = 450 - margin.top - margin.bottom;
+const svgWidth = width + margin.left + margin.right;
+const svgHeight = height + margin.top + margin.bottom;
+
+// Create an svg element with the width and height defined.
+const svg = d3n.createSVG(svgWidth, svgHeight);
 
 // Create the scales for x-axis and y-axis. 
 const xScale = d3.scaleBand().range([0, width]).padding(0.4);
 const yScale = d3.scaleLinear().range([height, 0]);
 
+// Sample data
 const tempData = [{ year: 2020, value: 100 }, { year: 2019, value: 200 }, { year: 2018, value: 30 }, { year: 2017, value: 50 }, { year: 2016, value: 80 }];
 
 let yMax = d3.max(tempData, (d) => { return d.value; });
 yMax += yMax * 0.3;
 xScale.domain(tempData.map((d) => { return d.year; }));
 yScale.domain([0, yMax]);
-
-const svgWidth = width + margin.left + margin.right;
-const svgHeight = height + margin.top + margin.bottom;
-
-// Create an svg element with the width and height defined.
-const svg = d3n.createSVG(svgWidth, svgHeight);
 
 // Set the background of the entire svg to a desired color. This will make the background look uniform on everyone's computer.
 svg.append('rect')
