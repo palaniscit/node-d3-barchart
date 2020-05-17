@@ -23,12 +23,12 @@ const svgHeight = height + margin.top + margin.bottom;
 // Create an svg element with the width and height defined.
 const svg = d3n.createSVG(svgWidth, svgHeight);
 
+// Sample data
+const tempData = [{ year: 2020, value: 100 }, { year: 2019, value: 200 }, { year: 2018, value: 30 }, { year: 2017, value: 50 }, { year: 2016, value: 80 }];
+
 // Create the scales for x-axis and y-axis. 
 const xScale = d3.scaleBand().range([0, width]).padding(0.4);
 const yScale = d3.scaleLinear().range([height, 0]);
-
-// Sample data
-const tempData = [{ year: 2020, value: 100 }, { year: 2019, value: 200 }, { year: 2018, value: 30 }, { year: 2017, value: 50 }, { year: 2016, value: 80 }];
 
 let yMax = d3.max(tempData, (d) => { return d.value; });
 yMax += yMax * 0.3;
@@ -41,15 +41,18 @@ svg.append('rect')
     .attr('height', '100%')
     .style('fill', 'white');
 
+// Add a title text to your bar chart. 
 svg.append('text')
   .attr('transform', 'translate(150,0)')
   .attr('x', 50)
   .attr('y', 50)
   .attr('font-size', '24px')
-  .text('XYZ Foods Stock Price');
+  .text('Your first histogram');
 
+// Append a group element to which the bars and axes will be added to.
 svg.append('g').attr('transform', `translate(${ 100 },${ 100 })`);
 
+// Appending x-axis
   svg.append('g')
   .attr('transform', `translate(50,${ height })`)
   .call(d3.axisBottom(xScale))
@@ -61,6 +64,7 @@ svg.append('g').attr('transform', `translate(${ 100 },${ 100 })`);
   .attr('font-size', '20px')
   .text('Year');
 
+// Appending y-aixs
 svg.append('g')
   .attr('transform', 'translate(50,0)')
   .call(d3.axisLeft(yScale).tickFormat((d) => {
@@ -75,8 +79,9 @@ svg.append('g')
   .attr('text-anchor', 'end')
   .attr('stroke', 'black')
   .attr('font-size', '20px')
-  .text('Stock Price');
+  .text('Cost');
 
+  // Appending the bars
   svg.selectAll('.bar')
          .data(tempData)
          .enter().append('rect')
@@ -88,8 +93,10 @@ svg.append('g')
          .attr('height', (d) => { return height - yScale(d.value); })
          .style('fill', 'orange');
 
+// Create a SVG. 
 fs.writeFileSync('out.svg', d3n.svgString());
 
+// Convert the SVG into a PNG. 
 sharp('out.svg')
     .png()
     .toFile('sharp.png')
